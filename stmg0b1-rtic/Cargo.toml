@@ -1,0 +1,20 @@
+[package]
+name = "stm_rtic_test"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+defmt = "0.3"
+defmt-rtt = "0.4"
+
+rtic = { version = "2.2.0", features = [ "thumbv6-backend" ] }
+stm32g0 = { version = "0.16.0", features = [ "stm32g0b1" ] }
+
+cortex-m = { version = "0.7.7", features = ["inline-asm", "critical-section-single-core"] }
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+portable-atomic = { version = "1.11", features = ["unsafe-assume-single-core"] }
+rtic-monotonics = { version = "2.1.0", features = [ "cortex-m-systick" ]}
+
+[profile.release]
+debug = 2
