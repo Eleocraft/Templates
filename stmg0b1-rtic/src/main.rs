@@ -15,6 +15,7 @@ rtic_monotonics::systick_monotonic!(Mono, 1000);
 )]
 mod app {
     use defmt::info;
+    use stm32g0::stm32g0b1::GPIOA;
     use super::Mono;
     use rtic_monotonics::rtic_time::Monotonic;
     use rtic_monotonics::fugit::Duration;
@@ -29,6 +30,7 @@ mod app {
     #[local]
     struct Local {
         local_test: i64,
+        gpioa: GPIOA,
     }
 
     #[init]
@@ -37,6 +39,13 @@ mod app {
 
         // setup monotics (on g0b1 default clockspeed 16Mhz)
         Mono::start(cx.core.SYST, 16_000_000);
+
+        // setup led (PA5)
+        let rcc = cx.device.RCC;
+        rcc.iopenr().write(|w| w.gpioaen().set_bit());
+
+        let gpioa = cx.device.GPIOA;
+        gpioa.moder().write(|w| w.moder5().output());
 
         task1::spawn().ok();
         task2::spawn().ok();
@@ -48,7 +57,8 @@ mod app {
             },
             Local {
                 // Initialization of local resources go here
-                local_test: 0
+                local_test: 0,
+                gpioa
             },
         )
     }
@@ -77,11 +87,14 @@ mod app {
     }
 
     // Task 2
-    #[task(shared = [shared_test], priority = 1)]
+    #[task(local = [gpioa], shared = [shared_test], priority = 1)]
     async fn task2(mut cx: task2::Context) {
         loop {
             info!("Task 2! shared: {}", cx.shared.shared_test.lock(|v| *v));
             cx.shared.shared_test.lock(|v| *v += 1);
+            
+            let led_state = cx.local.gpioa.odr().read().odr5().bit();
+            cx.local.gpioa.odr().write(|w| w.odr5().bit(!led_state));
             
             // Wait for 1 second
             Mono::delay(Duration::<u32, _, _>::millis(1000)).await;
