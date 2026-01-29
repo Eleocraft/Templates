@@ -1,0 +1,25 @@
+name = "Rust linux"
+description = "Template for rust projects on linux"
+kickstart_version = 1
+
+ignore = [
+  ".direnv",
+  "target",
+  ".flake.lock",
+  "Cargo.lock"
+]
+
+[[variables]]
+name = "project_name"
+default = "embassy_project"
+prompt = "name of the project"
+
+[[variables]]
+name = "rust_version"
+default = "stable"
+prompt = "rust version used in the project"
+choices = [
+  "stable",
+  "default",
+  "latest",
+]

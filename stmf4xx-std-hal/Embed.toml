@@ -1,5 +1,0 @@
-[default.general]
-chip = "STM32F413ZHTx"
-
-[default.rtt]
-enabled = true

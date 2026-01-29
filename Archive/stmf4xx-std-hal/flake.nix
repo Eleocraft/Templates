@@ -1,5 +1,5 @@
 {
-  description = "embassy g0b1 flake";
+  description = "embassy flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -21,22 +21,17 @@
       {
         devShells.default =
         let
-          toolchain = pkgs.fenix.toolchainOf {
-            channel = "nightly";
-            date = "2025-12-22";
-            sha256 = "sha256-bXz1imrwFz4Z5vlZV4jfRZWwsRma6Sk95IOuTMQFFVU=";
-          };
-          lib = pkgs.fenix.targets.thumbv6m-none-eabi.toolchainOf {
-            channel = "nightly";
-            date = "2025-12-22";
-            sha256 = "sha256-bXz1imrwFz4Z5vlZV4jfRZWwsRma6Sk95IOuTMQFFVU=";
-          };
+          toolchain = pkgs.fenix.latest;
+          libv6 = pkgs.fenix.targets.thumbv6m-none-eabi.latest;
+          libv7 = pkgs.fenix.targets.thumbv7em-none-eabihf.latest;
           rust = pkgs.fenix.combine [
             toolchain.rustc
+            toolchain.rust-src
             toolchain.cargo
             toolchain.rustfmt
             toolchain.clippy
-            lib.rust-std
+            libv6.rust-std
+            libv7.rust-std
           ];
         in
         pkgs.mkShell {
