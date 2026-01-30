@@ -1,0 +1,35 @@
+name = "Bare metal STM32 for f4 series chips"
+description = "Template for embedded rust projects on stm32 using stm32f4xx_hal hal"
+kickstart_version = 1
+
+ignore = [
+  ".direnv",
+  "target",
+  ".flake.lock",
+  "Cargo.lock"
+]
+
+[[variables]]
+name = "project_name"
+default = "bare_metal_project"
+prompt = "name of the project"
+
+[[variables]]
+name = "chip"
+default = "stm32f407vg"
+prompt = "target mcu of the project"
+
+[[variables]]
+name = "ram"
+default = 128
+prompt = "amount of ram of the target (in KiBi)"
+
+[[variables]]
+name = "flash"
+default = 512
+prompt = "amount of flash of the target (in KiBi)"
+
+[[variables]]
+name = "probe_rs_remote"
+default = false
+prompt = "do you need remote support for probe rs"

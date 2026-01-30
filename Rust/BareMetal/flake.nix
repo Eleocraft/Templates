@@ -1,5 +1,5 @@
 {
-  description = "embassy flake";
+  description = "rust stm32f4xx_hal flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -30,7 +30,7 @@
         devShells.default =
         let
           toolchain = pkgs.fenix.complete;
-          std-lib = pkgs.fenix.targets.{{ target }}.latest;
+          std-lib = pkgs.fenix.targets.thumbv7em-none-eabihf.latest;
           rust-pkgs = pkgs.fenix.combine [
             toolchain.rustc-unwrapped
             toolchain.rust-src

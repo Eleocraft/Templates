@@ -1,0 +1,19 @@
+name = "Cmake linux"
+description = "Template for cmake projects on linux"
+kickstart_version = 1
+
+[[variables]]
+name = "project_name"
+default = "cmake_project"
+prompt = "name of the project"
+
+[[variables]]
+name = "bin_name"
+default = "main"
+prompt = "name of the binary"
+
+
+[[variables]]
+name = "cxx_version"
+default = 23
+prompt = "c/cpp version"
