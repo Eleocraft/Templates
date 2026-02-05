@@ -1,0 +1,13 @@
+name = "Generic flake"
+description = "A generic flake template"
+kickstart_version = 1
+
+ignore = [
+  ".direnv",
+  ".flake.lock",
+]
+
+[[variables]]
+name = "dependencies"
+default = ""
+prompt = "add comma-separated dependencies"
