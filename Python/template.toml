@@ -1,0 +1,13 @@
+name = "Python template"
+description = "A generic python flake template"
+kickstart_version = 1
+
+ignore = [
+  ".direnv",
+  ".flake.lock",
+]
+
+[[variables]]
+name = "package_name"
+default = ""
+prompt = "Package name:"
