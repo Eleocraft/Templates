@@ -39,10 +39,12 @@
             toolchain.clippy
             std-lib.rust-std
           ];
+          rust-analyzer = pkgs.fenix.rust-analyzer;
         in
         pkgs.mkShell {
           buildInputs = with pkgs; [
             rust-pkgs
+            rust-analyzer
 
             # extra cargo tools
             cargo-edit

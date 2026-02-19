@@ -22,10 +22,12 @@
         devShells.default =
         let
           rust-pkgs = pkgs.fenix.{{ rust_version }}.toolchain;
+          rust-analyzer = pkgs.fenix.rust-analyzer;
         in
         pkgs.mkShell {
           buildInputs = [
             rust-pkgs
+            rust-analyzer
           ];
         };
       }
