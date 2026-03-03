@@ -11,7 +11,7 @@ ignore = [
 
 [[variables]]
 name = "project_name"
-default = "embassy_project"
+default = "rust_project"
 prompt = "name of the project"
 
 [[variables]]

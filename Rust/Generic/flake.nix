@@ -17,18 +17,22 @@
           inherit system;
           overlays = [ fenix.overlays.default ];
         };
+        rust-toolchain = pkgs.fenix.{{ rust_version }}.toolchain;
       in
       {
         devShells.default =
-        let
-          rust-pkgs = pkgs.fenix.{{ rust_version }}.toolchain;
-          rust-analyzer = pkgs.fenix.rust-analyzer;
-        in
         pkgs.mkShell {
           buildInputs = [
-            rust-pkgs
+            rust-toolchain
+            {% if rust_version == "stable" %}
             rust-analyzer
+            {% else %}
+            rust-analyzer-nightly
+            {% endif %}
           ];
+
+          # set the rust src for rust_analyzer
+          RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
         };
       }
     );

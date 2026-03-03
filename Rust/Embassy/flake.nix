@@ -1,4 +1,4 @@
-{
+
   description = "embassy flake";
 
   inputs = {
@@ -39,12 +39,11 @@
             toolchain.clippy
             std-lib.rust-std
           ];
-          rust-analyzer = pkgs.fenix.rust-analyzer;
         in
         pkgs.mkShell {
           buildInputs = with pkgs; [
             rust-pkgs
-            rust-analyzer
+            rust-analyzer-nightly
 
             # extra cargo tools
             cargo-edit
