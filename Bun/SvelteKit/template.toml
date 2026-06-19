@@ -1,0 +1,8 @@
+name = "Bun linux"
+description = "Template for bun projects on linux"
+kickstart_version = 1
+
+[[variables]]
+name = "project_name"
+default = "bun_project"
+prompt = "name of the project"

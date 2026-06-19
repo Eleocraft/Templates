@@ -8,6 +8,11 @@
       url = "github:nix-community/fenix/monthly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    naersk = {
+      url = "github:nix-community/naersk";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.fenix.follows = "fenix";
+    };
   };
 
   outputs = { self, nixpkgs, fenix, flake-utils }:
@@ -34,6 +39,20 @@
 
           # set the rust src for rust_analyzer
           RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
+        };
+        packages.default = 
+        let
+          cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
+        in
+        (naersk.lib.${system}.override {
+          cargo = rust-toolchain;
+          rustc = rust-toolchain;
+        }).buildPackage {
+          src = ./.;
+          # set mainProgram variable for lib.getExe to work
+          overrideMain = old: {
+            meta = (old.meta or {}) // { mainProgram = cargoToml.package.name; };
+          };
         };
       }
     );

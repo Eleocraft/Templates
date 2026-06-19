@@ -1,0 +1,12 @@
+[target.{{ target }}]
+runner = "probe-rs run --chip {{ chip | upper }}"
+rustflags = [
+  "-C", "link-arg=-Tlink.x", # linker file
+  "-C", "link-arg=--nmagic", # no std memory layout
+  "-C", "link-arg=-Tdefmt.x", # add defmt
+]
+
+[build]
+target = "{{ target }}"
+
+

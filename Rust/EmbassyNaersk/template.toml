@@ -1,0 +1,37 @@
+name = "Embassy STM32"
+description = "Template for embedded rust projects on stm32 using the embassy framework"
+kickstart_version = 1
+
+ignore = [
+  ".direnv",
+  "target",
+  ".flake.lock",
+  "Cargo.lock"
+]
+
+[[variables]]
+name = "project_name"
+default = "embassy_project"
+prompt = "name of the project"
+
+[[variables]]
+name = "target"
+default = "thumbv7em-none-eabihf"
+prompt = "target architecture of the project"
+choices = [
+  "thumbv6m-none-eabi",
+  "thumbv7m-none-eabi",
+  "thumbv7em-none-eabi",
+  "thumbv7em-none-eabihf",
+]
+
+[[variables]]
+name = "chip"
+default = "stm32h723vg"
+prompt = "target mcu of the project"
+
+
+[[variables]]
+name = "probe_rs_remote"
+default = false
+prompt = "do you need remote support for probe rs"

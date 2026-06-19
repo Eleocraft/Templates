@@ -58,6 +58,24 @@
 					# set default defmt log level
 					DEFMT_LOG = "info";
         };
+
+        packages.default = 
+        let
+          cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
+        in
+        (naersk.lib.${system}.override {
+          cargo = rust-toolchain;
+          rustc = rust-toolchain;
+        }).buildPackage {
+          src = ./.;
+          # set mainProgram variable for lib.getExe to work
+          overrideMain = old: {
+            meta = (old.meta or {}) // { mainProgram = cargoToml.package.name; };
+          };
+
+          # set defmt log level in nix build
+          DEFMT_LOG = "info";
+        };
       }
     );
 }
