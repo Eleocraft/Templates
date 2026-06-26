@@ -30,24 +30,22 @@
             probe-rs-overlay {% endif %}
           ];
         };
+        profile = pkgs.fenix.complete;
+        std-lib = pkgs.fenix.targets.{{ target }}.latest;
+        rust-toolchain = pkgs.fenix.combine [
+          profile.rustc-unwrapped
+          profile.rust-src
+          profile.cargo
+          profile.rustfmt
+          profile.clippy
+          std-lib.rust-std
+        ];
       in
       {
         devShells.default =
-        let
-          toolchain = pkgs.fenix.complete;
-          std-lib = pkgs.fenix.targets.{{ target }}.latest;
-          rust-pkgs = pkgs.fenix.combine [
-            toolchain.rustc-unwrapped
-            toolchain.rust-src
-            toolchain.cargo
-            toolchain.rustfmt
-            toolchain.clippy
-            std-lib.rust-std
-          ];
-        in
         pkgs.mkShell {
           buildInputs = with pkgs; [
-            rust-pkgs
+            rust-toolchain
             rust-analyzer-nightly
 
             # extra cargo tools
@@ -59,7 +57,7 @@
           ];
 
           # set the rust src for rust_analyzer
-          RUST_SRC_PATH = "${rust-pkgs}/lib/rustlib/src/rust/library";
+          RUST_SRC_PATH = "${rust-toolchain}/lib/rustlib/src/rust/library";
 					# set default defmt log level
 					DEFMT_LOG = "info";
         };
